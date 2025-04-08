@@ -1,0 +1,21 @@
+services:
+  server:
+    build: ./server
+    container_name: flask-server
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  sender:
+    build: ./sender
+    container_name: traffic-sender
+    depends_on:
+      - server
+    restart: "no"
+
+  frontend:
+    build: ./frontend
+    container_name: traffic-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
